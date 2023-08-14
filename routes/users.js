@@ -13,6 +13,8 @@ router.get("/users", async function (req, res) {
   res.json(user);
 });
 
+
+
 router.get("/users/:id", async function (req, res) {
   const user = await User.findById(req.params.id).populate({
     path: "cartItem",
