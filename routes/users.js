@@ -6,13 +6,18 @@ const createError = require("http-errors");
 
 /* GET users listing. */
 router.get("/users", async function (req, res) {
-  const user = await User.find();
+  const user = await User.find().populate({
+    path: "cartItem",
+    populate: "product",
+  });
   res.json(user);
 });
 
 router.get("/users/:id", async function (req, res) {
-  const user = await User.findById(req.params.id);
-
+  const user = await User.findById(req.params.id).populate({
+    path: "cartItem",
+    populate: "product",
+  });
   res.json(user);
 });
 

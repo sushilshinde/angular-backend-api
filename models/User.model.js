@@ -20,16 +20,15 @@ const UserSchema = new mongoose.Schema({
   isAdmin: {
     type: Boolean,
   },
-  cartItem: {
-    type: Array,
-    of: new mongoose.Schema({
+  cartItem: [
+    {
       quantity: Number,
       product: {
-        type: "ObjectId",
+        type: mongoose.Schema.Types.ObjectId,
         ref: "Product",
       },
-    }),
-  },
+    },
+  ],
 });
 
 UserSchema.pre("save", async function (next) {
