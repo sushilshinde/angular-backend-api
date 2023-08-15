@@ -12,23 +12,19 @@ router.get("/", (req, res) => {
 });
 
 router.get("/products", async (req, res) => {
-  // const products = await Product.find();
-  const trendy = req.query.trendy
-  let productsData = products;
-  if (trendy) {
-    productsData = productsData.filter((item) => item.trendy);
-    console.log(productsData)
+  let products;
+  if (req.query) {
+    products = await Product.find(req.query);
+  } else {
+    products = await Product.find(req.query);
   }
-
-  res.json(productsData);
+  res.json(products);
 });
+
 router.get("/products/:id", async (req, res) => {
-  // const products = await Product.find();
   const id = req.params.id;
-
-  const productsData = products.find((item) => item.id === +id);
-
-  res.json({ data: productsData });
+  const products = await Product.findById(id);
+  res.json({ data: products });
 });
 
 module.exports = router;
