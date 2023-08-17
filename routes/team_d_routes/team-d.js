@@ -2,6 +2,8 @@ const express = require("express");
 const Product = require("../../models/team_d_models/Product.model");
 const User = require("../../models/team_d_models/User.model");
 const router = express.Router();
+const createError = require("http-errors");
+const generateAccessToken = require("../../config/jwt_generator");
 
 router.get("/users", async function (req, res) {
   const user = await User.find().populate({
@@ -69,6 +71,48 @@ router.get("/products", async (req, res) => {
     products = await Product.find(req.query);
   }
   res.json(products);
+});
+
+router.post("/auth/register", async function (req, res, next) {
+  try {
+    const { email, password } = req.body;
+    const userExist = await User.findOne({ email });
+    if (userExist)
+      throw createError.Conflict(`${email} is already registered.`);
+    const user = new User({
+      email,
+      password,
+      cart: [],
+    });
+    const savedUser = await user.save();
+    const accessToken = await generateAccessToken(savedUser.id);
+    res.json({
+      id: savedUser.id,
+      accessToken,
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post("/auth/login", async function (req, res, next) {
+  try {
+    const { email, password } = req.body;
+    const user = await User.findOne({ email });
+    if (!user) throw createError.Conflict(`User not found`);
+
+    const isValidPassword = await user.isValidPassword(password);
+    if (!isValidPassword)
+      throw createError.Unauthorized("Invalid Username/Password");
+    const accessToken = await generateAccessToken(user.id);
+
+    res.json({
+      id: user.id,
+      accessToken,
+    });
+  } catch (error) {
+    next(error);
+  }
 });
 
 router.get("/products/:id", async (req, res) => {
