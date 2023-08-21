@@ -1,23 +1,22 @@
 const express = require("express");
 const router = express.Router();
-import {movieData} from "../assets/team_e/moviesData"
-import { usersData } from "../assets/team_e/usersData";
+const usersData = require("./../assets/team_e/usersData");
+const moviesData = require("./../assets/team_e/moviesData");
+
+// Now, you can use the `usersData` array in your code.
+console.log(usersData);
+
+// Now, you can use the `usersData` array in your code.
+console.log(usersData);
 
 router.get("/movies", (req, res) => {
-  const teamEData = movieData;
+  const teamEData = moviesData;
   res.json(teamEData);
 });
 router.get("/users", (req, res) => {
   const teamEData = usersData;
+  res.status=200
   res.json(teamEData);
 });
-router.post("/users", (req, res) => {
-  const newUser = req.body;
-  usersData.push(newUser)
-  res.json(usersData);
-});
-
-
-router;
 
 module.exports = router;
