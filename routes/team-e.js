@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
-import products from "../assets/team-d/productData";
+import {movieData} from "../assets/team_e/moviesData"
 import { usersData } from "../assets/team_e/usersData";
 
 router.get("/movies", (req, res) => {
-  const teamEData = products;
+  const teamEData = movieData;
   res.json(teamEData);
 });
 router.get("/users", (req, res) => {
