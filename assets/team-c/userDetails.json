@@ -1,0 +1,16 @@
+{
+  "users": [
+    {
+      "name": "Balaji",
+      "email": "b@gmail.com",
+      "password": "Ba1@",
+      "confirm": "Ba1@"
+    },
+    {
+      "name": "Vijay",
+      "email": "vijay@gmail.com",
+      "password": "Vijay@123",
+      "confirm": "Vijay@123"
+    }
+  ]
+}

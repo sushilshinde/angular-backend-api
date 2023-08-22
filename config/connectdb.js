@@ -2,10 +2,13 @@ const mongoose = require('mongoose');
 
 const connectDb = async () => {
   try {
-    await mongoose.connect(process.env.MONGO_URI, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    await mongoose.connect(
+      "mongodb+srv://vicky:vicky@vicky.wz9eh.mongodb.net/angular-shopping-cart?retryWrites=true&w=majority",
+      {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      }
+    );
     console.log("db connected successfully...");
   } catch (e) {
     console.log(e)
