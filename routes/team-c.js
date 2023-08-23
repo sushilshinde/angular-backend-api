@@ -1,20 +1,11 @@
 const express = require("express");
 const router = express.Router();
 const bookData = require("../assets/team-c/bookData.json");
-const cartData = require("../assets/team-c/cartItems.json");
+// const cartData = require("../assets/team-c/cartItems.json");
 const userData = require("../assets/team-c/userDetails.json");
+const cart = JSON.parse( JSON.stringify( userData.users ) );
 const fs = require("fs");
-const writeData = (jsonData) => {
-  try {
-    fs.writeFileSync(
-      "assets/team-c/cartItems.json",
-      JSON.stringify(jsonData),
-      "utf8"
-    );
-  } catch (error) {
-    console.error("Error writing data:", error);
-  }
-};
+
 const writeUserData = (jsonData) => {
   try {
     fs.writeFileSync(
@@ -44,44 +35,50 @@ router.get("/books/:id", async (req, res) => {
   res.json(products);
 });
 
-router.get("/cartItems", (req, res) => {
-  //{p:{id}}
-  // const bookArray = ["vicky"]
-  // console.log(cartData.cartItems);
-  // res.json({
-  //   id: cartData.cartItems[ 0 ].id,
-
-  // });
-  res.json(cartData.cartItems);
+router.get("/cartItems/:id", async (req, res) => {
+  const userId = req.params.id;
+  const index = await cart.findIndex((item) => item.id === +userId);
+  res.json(userData.users[index]?.cartItems);
 });
 
-router.post("/cartItems", async (req, res) => {
-  cartData.cartItems.push(req.body);
-  writeData(cartData);
-  res.send({ cartData });
-});
-router.delete("/cartItems/:id", async (req, res) => {
-  const id = req.params.id;
-  const cart = JSON.parse(JSON.stringify(cartData.cartItems));
-  const products = await cart.filter((item) => item.id !== +id);
-  cartData.cartItems = products;
-  writeData({ cartItems: products });
-  res.json(products);
+router.post("/cartItems/:id", async (req, res) => {
+  const userId = req.params.id;
+  const index = cart.findIndex((item) => item.id === +userId);
+  cart[index].cartItems.push(req.body);
+  userData.users[index].cartItems = cart[index].cartItems;
+  writeUserData({ users: cart });
+  res.send(userData.users);
 });
 router.patch("/cartItems/:id", async (req, res) => {
-  const id = req.params.id;
-  const cart = JSON.parse(JSON.stringify(cartData.cartItems));
-  const index = cart.findIndex((item) => item.id === +id);
-  cart[index].quantity = req.body.quantity;
-  cartData.cartItems = cart;
-  writeData({ cartItems: cart });
-  res.json(cart);
+  const userId = req.params.id;
+  const index = cart.findIndex((item) => item.id === +userId);
+  const products = await cart[index].cartItems.filter(
+    (item) => item.id !== req.body.id
+  );
+  cart[index].cartItems = products;
+  userData.users[ index ].cartItems = cart[ index ].cartItems;
+  writeUserData({ users: cart });
+  res.json(userData.users[index]?.cartItems);
+});
+router.patch("/cartItems-qty/:id", async (req, res) => {
+  const userId = req.params.id;
+  const index = cart.findIndex((item) => item.id === +userId);
+  const products = await cart[index].cartItems.find((item) => item.id === req.body.id);
+  products.quantity = req.body.quantity;
+  const cindex = await cart[index].cartItems.findIndex(
+    (item) => item.id === req.body.id
+  );
+  cart[index].cartItems[cindex] = products;
+  userData.users[index] = cart[index];
+  writeUserData({ users: cart });
+  res.json(userData.users[index]?.cartItems);
 });
 router.get("/users", (req, res) => {
   res.json(userData.users);
 });
 router.post("/users", (req, res) => {
-  userData.users.push(req.body);
+  const userId = userData.users.length;
+  userData.users.push({ ...req.body, id: userId + 1, cartItems: [] });
   writeUserData(userData);
   res.send({ userData });
 });

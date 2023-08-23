@@ -4,13 +4,26 @@
       "name": "Balaji",
       "email": "b@gmail.com",
       "password": "Ba1@",
-      "confirm": "Ba1@"
+      "confirm": "Ba1@",
+      "id": 1,
+      "cartItems": [
+        {
+          "title": "Twisted Love",
+          "id": 3,
+          "price": 400,
+          "quantity": 1,
+          "authors": "Ana Huang",
+          "thumbnailUrl": "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTZhtsKmo50jpJ6Meltf1tzUAGTJH2osk37Nvz8Qegv6c8bVxhr"
+        }
+      ]
     },
     {
-      "name": "Vijay",
-      "email": "vijay@gmail.com",
-      "password": "Vijay@123",
-      "confirm": "Vijay@123"
+      "name": "Rohith",
+      "email": "r@gmail.com",
+      "password": "Ro1@",
+      "confirm": "Ro1@",
+      "id": 2,
+      "cartItems": []
     }
   ]
 }

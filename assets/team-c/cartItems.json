@@ -1,1 +1,1 @@
-{"cartItems":[]}
+{"users":{"name":"Balaji","email":"b@gmail.com","password":"Ba1@","confirm":"Ba1@","id":1,"cartItems":[{"title":"Happy Place","id":1,"price":200,"quantity":2,"authors":"Emily Henry","thumbnailUrl":"https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTMtIHKz6P5NlEdwV3Mt1lL_fkoqXTj57c8hf-xXO06O6fIE3Gr"},{"title":"Fourth Wing","id":2,"price":300,"quantity":2,"authors":"Rebecca Yarros","thumbnailUrl":"https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTMGygN6vmJYLi9nkL769kQfNDg3kt-zfrb1AQRkAnvtiUysGdh"}]}}
