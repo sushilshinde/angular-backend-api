@@ -8,12 +8,12 @@
       "id": 1,
       "cartItems": [
         {
-          "title": "Gone Girl",
-          "id": 6,
-          "price": 800,
+          "title": "The Hunger Games",
+          "id": 8,
+          "price": 900,
           "quantity": 1,
-          "authors": "Gillian Flynn",
-          "thumbnailUrl": "https://encrypted-tbn3.gstatic.com/images?q=tbn:ANd9GcRqnQWlbi1AnkRDz3mTU2yYVuwkXsFiptcqQ_COdk16xkijN8yG"
+          "authors": "Suzanne Collins",
+          "thumbnailUrl": "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRSkUNQrln1w8K8eMQGRRF6-XEMjzDtBKfd1bw7XJ9zH-WW0P58"
         }
       ]
     },

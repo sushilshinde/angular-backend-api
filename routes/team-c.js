@@ -92,7 +92,7 @@ router.get("/users", (req, res, next) => {
         value.email === req.query.email && value.password !== req.query.password
     );
     if (isPasswordValidate) throw new Error("Invalid Username/Password");
-    const loggedUser = { users: { ...user } };
+    const loggedUser = { users: { email:user.email,id: user.id,name:user.name,cartItems:user.cartItems } };
     res.json({ users: loggedUser });
   } catch (error) {
     error.status = "401";
@@ -111,7 +111,7 @@ router.post("/users", (req, res,next) => {
       userData.users.push( { ...req.body, id: userId + 1, cartItems: [] } );
     writeUserData( userData );
     const RegisteredUser = {
-      users: { ...req.body, id: userId + 1, cartItems: [] },
+      users: { email:req.body.email,name:req.body.name, id: userId + 1, cartItems: [] },
     };
       res.send({ users: RegisteredUser });   
   } catch (error) {
