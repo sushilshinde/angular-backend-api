@@ -80,25 +80,20 @@ const cart = JSON.parse(JSON.stringify(userData.users));
 router.get("/users", (req, res, next) => {
   try {
     const user = userData.users.find(
-      ( value ) =>
-      {
-        if ( value.email === req.query.email && value.password === req.query.password )
-        {
-          return value;
-        }
-        else if ( value.email === req.query.email && value.password !== req.query.password )
-        {
-          throw new Error( "Invalid Username/Password" );
-        }
-        else
-        {
-          throw new Error( "User not found" );
-        }
-      }
+      (value) =>
+        value.email === req.query.email && value.password === req.query.password
     );
+    const isEmailValidate = userData.users.find(
+      (value) => value.email === req.query.email
+    );
+    if (!isEmailValidate) throw new Error("User not found");
+    const isPasswordValidate = userData.users.find(
+      (value) =>
+        value.email === req.query.email && value.password !== req.query.password
+    );
+    if (isPasswordValidate) throw new Error("Invalid Username/Password");
     const loggedUser = { users: { ...user } };
     res.json({ users: loggedUser });
-    
   } catch (error) {
     error.status = "401";
     next(error);
@@ -114,8 +109,11 @@ router.post("/users", (req, res,next) => {
     if ( user ) throw new Error( `${req.body.email} is already registered` );
       const userId = userData.users.length;
       userData.users.push( { ...req.body, id: userId + 1, cartItems: [] } );
-      writeUserData( userData );
-      res.send( { users: { ...req.body, id: userId + 1, cartItems: [] } } );   
+    writeUserData( userData );
+    const RegisteredUser = {
+      users: { ...req.body, id: userId + 1, cartItems: [] },
+    };
+      res.send({ users: RegisteredUser });   
   } catch (error) {
     error.status = "401";
     next(error);
