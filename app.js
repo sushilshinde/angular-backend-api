@@ -12,7 +12,7 @@ dotenv.config();
 const teamARoute = require("./routes/team-a");
 const teamBRoute = require("./routes/team-b");
 const teamCRoute = require("./routes/team-c");
-const teamDRoute = require("./routes/team-d");
+const teamDRoute = require("./routes/team_d_routes/team-d");
 const teamERoute = require("./routes/team-e");
 const connectDb = require("./config/connectdb");
 
@@ -44,7 +44,8 @@ app.use(function (req, res, next) {
 });
 
 // error handler
-app.use((err, req, res, next) => {
+app.use( ( err, req, res, next ) =>
+{
   res.status(err.status || 500);
   req.app.get("env") === "development"
     ? res.send({

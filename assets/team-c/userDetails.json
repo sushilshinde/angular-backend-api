@@ -1,0 +1,46 @@
+{
+  "users": [
+    {
+      "name": "Balaji",
+      "email": "balajin@gmail.com",
+      "password": "Ba1@",
+      "confirm": "Ba1@",
+      "id": 1,
+      "cartItems": [
+        {
+          "title": "The Hunger Games",
+          "id": 8,
+          "price": 900,
+          "quantity": 1,
+          "authors": "Suzanne Collins",
+          "thumbnailUrl": "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRSkUNQrln1w8K8eMQGRRF6-XEMjzDtBKfd1bw7XJ9zH-WW0P58"
+        }
+      ]
+    },
+    {
+      "name": "Srikanth",
+      "email": "srikanth@gmail.com",
+      "password": "Sri1@",
+      "confirm": "Sri1@",
+      "id": 2,
+      "cartItems": [
+        {
+          "title": "Fourth Wing",
+          "id": 2,
+          "price": 300,
+          "quantity": 2,
+          "authors": "Rebecca Yarros",
+          "thumbnailUrl": "https://encrypted-tbn2.gstatic.com/images?q=tbn:ANd9GcTMGygN6vmJYLi9nkL769kQfNDg3kt-zfrb1AQRkAnvtiUysGdh"
+        },
+        {
+          "title": "A Little Life",
+          "id": 4,
+          "price": 500,
+          "quantity": 1,
+          "authors": "Hanya Yanagihara",
+          "thumbnailUrl": "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSbphzgI6WkqUY8QwpMVAlDWsbORBa16Uj35LtsNyKsaOYhs0Y4"
+        }
+      ]
+    }
+  ]
+}
