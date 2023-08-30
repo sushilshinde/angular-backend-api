@@ -51,7 +51,6 @@ router.post("/all_tasks", (req, res) => {
   res.send({ allTasksData });
   console.log(allTasksData);
 });
-
 router.get("/all_tasks", (req, res) => {
   res.json(allTasksData.all_tasks);
 });
