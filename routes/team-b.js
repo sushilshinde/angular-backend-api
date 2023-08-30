@@ -31,8 +31,7 @@ const writeUserData = (jsonData) => {
     );
   } catch (error) {
     console.error("Error writing data:", error);
-  }
-};
+  };
 const writeAllTasksData = (jsonData) => {
   try {
     fs.writeFileSync(
@@ -52,8 +51,7 @@ const writeAllTasksData = (jsonData) => {
     );
   } catch (error) {
     console.error("Error writing data:", error);
-  }
-};
+  };
 
 router.post("/users", (req, res) => {
   userData.users.push(req.body);
@@ -71,9 +69,9 @@ router.post("/all_tasks", (req, res) => {
   res.send({ allTasksData });
   console.log(allTasksData);
 });
-router.get("/all_tasks", (req, res) => {
-  res.json(allTasksData.all_tasks);
-});
+// router.get("/all_tasks", (req, res) => {
+//   res.json(allTasksData.all_tasks);
+// });
 
 router.get('/all_tasks', (req, res) => {
   const foundItem = allTasksData.all_tasks.filter(
