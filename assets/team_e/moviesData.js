@@ -1,4 +1,4 @@
-export const  movies = [
+ const  moviesData = [
     {
       adult: false,
       backdrop_path:
@@ -1620,3 +1620,4 @@ export const  movies = [
       ],
     },
   ];
+  module.exports = moviesData;

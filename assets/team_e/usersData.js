@@ -1,4 +1,4 @@
-export const usersData = [
+const usersData = [
   {
     username: "venki",
     email: "venki@gmail.com",
@@ -15,3 +15,5 @@ export const usersData = [
     password: "user1234",
   },
 ];
+
+module.exports = usersData;
