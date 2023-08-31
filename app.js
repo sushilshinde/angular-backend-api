@@ -12,8 +12,8 @@ dotenv.config();
 const teamARoute = require("./routes/team-a");
 const teamBRoute = require("./routes/team-b");
 const teamCRoute = require("./routes/team-c");
-// const teamDRoute = require("./routes/team-d");
-// const teamERoute = require("./routes/team-e");
+const teamDRoute = require("./routes/team-d");
+const teamERoute = require("./routes/team-e");
 const connectDb = require("./config/connectdb");
 
 var app = express();
@@ -35,8 +35,8 @@ app.use("/", usersRouter);
 app.use("/team-a", teamARoute);
 app.use("/team-b", teamBRoute);
 app.use("/team-c", teamCRoute);
-// app.use("/team-d", teamDRoute);
-// app.use("/team-e", teamERoute);
+app.use("/team-d", teamDRoute);
+app.use("/team-e", teamERoute);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
