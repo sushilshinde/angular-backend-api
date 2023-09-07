@@ -47,6 +47,18 @@
             "email": "user02@gmail.com",
             "password": "123456",
             "cnf_password": "123456"
+        },
+        {
+            "name": "harry",
+            "email": "harry@gmail.com",
+            "password": "harry",
+            "cnf_password": "harry"
+        },
+        {
+            "name": "harry",
+            "email": "harry@gmail.com",
+            "password": "harry",
+            "cnf_password": "harry"
         }
     ]
 }
