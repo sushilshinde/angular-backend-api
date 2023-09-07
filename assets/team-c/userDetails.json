@@ -8,12 +8,21 @@
       "id": 1,
       "cartItems": [
         {
-          "title": "The Hunger Games",
-          "id": 8,
-          "price": 900,
+          "title": "3D User Interfaces with Java 3D",
+          "id": 31,
+          "price": 1500,
           "quantity": 1,
-          "authors": "Suzanne Collins",
-          "thumbnailUrl": "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcRSkUNQrln1w8K8eMQGRRF6-XEMjzDtBKfd1bw7XJ9zH-WW0P58"
+          "discount": 10,
+          "authors": "Jon Barrilleaux",
+          "thumbnailUrl": "https://s3.amazonaws.com/AKIAJC5RLADLUMVRPFDQ.book-thumb-images/barrilleaux.jpg"
+        },
+        {
+          "title": "Happy Place",
+          "id": 1,
+          "price": 200,
+          "quantity": 3,
+          "authors": "Emily Henry",
+          "thumbnailUrl": "https://encrypted-tbn1.gstatic.com/images?q=tbn:ANd9GcTMtIHKz6P5NlEdwV3Mt1lL_fkoqXTj57c8hf-xXO06O6fIE3Gr"
         }
       ]
     },
