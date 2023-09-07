@@ -1,0 +1,52 @@
+{
+    "users": [
+        {
+            "name": "admin",
+            "email": "admin@gmail.com",
+            "password": "admin",
+            "cnf_password": "admin"
+        },
+        {
+            "name": "acharjya",
+            "email": "acharjya@gmail.com",
+            "password": "acharjya",
+            "cnf_password": "acharjya"
+        },
+        {
+            "name": "Raj",
+            "email": "raj@gmail.com",
+            "password": "123456",
+            "cnf_password": "123456"
+        },
+        {
+            "name": "testing01",
+            "email": "testing01@gmail.com",
+            "password": "testing01",
+            "cnf_password": "testing01"
+        },
+        {
+            "name": "testing02",
+            "email": "testing02@gmail.com",
+            "password": "testing02",
+            "cnf_password": "testing02"
+        },
+        {
+            "name": "Balaji",
+            "email": "b@gmail.com",
+            "password": "123456",
+            "cnf_password": "123456"
+        },
+        {
+            "name": "user",
+            "email": "user123@gmail.com",
+            "password": "123456",
+            "cnf_password": "123456"
+        },
+        {
+            "name": "user02",
+            "email": "user02@gmail.com",
+            "password": "123456",
+            "cnf_password": "123456"
+        }
+    ]
+}
