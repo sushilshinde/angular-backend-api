@@ -65,10 +65,24 @@ router.patch("/remove-cart/:id", async (req, res, next) => {
 
 router.get("/products", async (req, res) => {
   let products;
+  
   if (req.query) {
     products = await Product.find(req.query);
+    
   } else {
     products = await Product.find(req.query);
+  }
+  res.json(products);
+});
+router.get("/products/search", async (req, res) => {
+  let products;
+  const searchCriteria = { title: { $regex: new RegExp(req.query.q, 'i') } }
+  console.log(req.query)
+  if (req.query) {
+    products = await Product.find(searchCriteria);
+    console.log(products)
+  } else {
+    products = await Product.find({});
   }
   res.json(products);
 });
@@ -86,12 +100,15 @@ router.post("/auth/register", async function (req, res, next) {
     });
     const savedUser = await user.save();
     const accessToken = await generateAccessToken(savedUser.id);
+    console.log(savedUser)
     res.json({
       id: savedUser.id,
       accessToken,
     });
   } catch (error) {
+    console.log(error)
     next(error);
+    
   }
 });
 
