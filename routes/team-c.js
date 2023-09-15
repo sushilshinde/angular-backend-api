@@ -1,20 +1,8 @@
 const express = require("express");
+const Book = require("../models/team_c_models/Books.model");
+const UserDetails = require("../models/team_c_models/Users.model");
 const router = express.Router();
-const bookData = require("../assets/team-c/bookData.json");
-const userData = require( "../assets/team-c/userDetails.json" );
-const fs = require("fs");
-
-const writeUserData = (jsonData) => {
-  try {
-    fs.writeFileSync(
-      "assets/team-c/userDetails.json",
-      JSON.stringify(jsonData),
-      "utf8"
-    );
-  } catch (error) {
-    console.error("Error writing data:", error);
-  }
-};
+const createError = require("http-errors");
 router.get("/", (req, res) => {
   const teamAData = {
     team: "Team C",
@@ -22,100 +10,133 @@ router.get("/", (req, res) => {
   };
   res.json(teamAData);
 });
-
-router.get("/books", (req, res) => {
-  res.json(bookData.books);
+router.get("/books", async function (req, res) {
+  const book = await Book.find().populate();
+  res.json(book);
 });
-router.get("/books/:id", async (req, res) => {
+router.get("/book/:id", async (req, res) => {
   const id = req.params.id;
-  const books = JSON.parse(JSON.stringify(bookData.books));
-  const products = await books.find((item) => item.id === +id);
-  res.json(products);
+  const book = await Book.findById(id);
+  res.json(book);
 });
 
-router.get("/cartItems/:id", (req, res) => {
-  const userId = req.params.id;
-  const cart = JSON.parse( JSON.stringify( userData.users ) );
-  const index = cart.findIndex((item) => item.id === +userId);
-  res.json(userData.users[index]?.cartItems);
-});
-
-router.post("/cartItems/:id", async (req, res) => {
-  const userId = req.params.id;
-  const cart = JSON.parse( JSON.stringify( userData.users ) );
-  const index = cart.findIndex((item) => item.id === +userId);
-  cart[index].cartItems.push(req.body);
-  userData.users[index].cartItems = cart[index].cartItems;
-  writeUserData({ users: cart });
-  res.send(userData.users);
-});
-router.patch("/cartItems/:id", async (req, res) => {
-  const userId = req.params.id;
-const cart = JSON.parse(JSON.stringify(userData.users));
-  const index = cart.findIndex((item) => item.id === +userId);
-  const products = await cart[index].cartItems.filter(
-    (item) => item.id !== req.body.id
-  );
-  cart[index].cartItems = products;
-  userData.users[index].cartItems = cart[index].cartItems;
-  writeUserData({ users: cart });
-  res.json(userData.users[index]?.cartItems);
-});
-router.patch("/cartItems-qty/:id", async (req, res) => {
-  const userId = req.params.id;
-const cart = JSON.parse(JSON.stringify(userData.users));
-  const index = cart.findIndex((item) => item.id === +userId);
-  const products = await cart[index].cartItems.find(
-    (item) => item.id === req.body.id
-  );
-  products.quantity = req.body.quantity;
-  const cindex = await cart[index].cartItems.findIndex(
-    (item) => item.id === req.body.id
-  );
-  cart[index].cartItems[cindex] = products;
-  userData.users[index] = cart[index];
-  writeUserData({ users: cart });
-  res.json(userData.users[index]?.cartItems);
-});
-router.get("/users", (req, res, next) => {
+router.get("/get-cartItem/:id", async (req, res, next) => {
   try {
-    const user = userData.users.find(
-      (value) =>
-        value.email === req.query.email && value.password === req.query.password
-    );
-    const isEmailValidate = userData.users.find(
-      (value) => value.email === req.query.email
-    );
-    if (!isEmailValidate) throw new Error("User not found");
-    const isPasswordValidate = userData.users.find(
-      (value) =>
-        value.email === req.query.email && value.password !== req.query.password
-    );
-    if (isPasswordValidate) throw new Error("Invalid Username/Password");
-    const loggedUser = { users: { email:user.email,id: user.id,name:user.name,cartItems:user.cartItems } };
-    res.json({ users: loggedUser });
+    let book;
+    if (req.params.id) {
+      book = await UserDetails.findById(req.params.id).populate({
+        path: "cartItem",
+        populate: "book",
+      });
+    } else {
+      throw createError.Conflict(`Something went wrong!!!`);
+    }
+    res.json(book);
   } catch (error) {
-    error.status = "401";
     next(error);
   }
 });
-router.get("/userDetails", (req, res) => {
-  res.json(userData.users);
-});
-router.post("/users", (req, res,next) => {
-  try
-  {
-    const user = userData.users.find( ( value ) => value.email === req.body.email );
-    if ( user ) throw new Error( `${req.body.email} is already registered` );
-      const userId = userData.users.length;
-      userData.users.push( { ...req.body, id: userId + 1, cartItems: [] } );
-    writeUserData( userData );
-    const RegisteredUser = {
-      users: { email:req.body.email,name:req.body.name, id: userId + 1, cartItems: [] },
-    };
-      res.send({ users: RegisteredUser });   
+
+router.patch("/add-cartItem/:id", async (req, res, next) => {
+  try {
+    let book;
+    const { id, quantity } = req.body;
+    if (req.params.id) {
+      book = await UserDetails.findById(req.params.id);
+      book.cartItem.push({ book: id, quantity });
+      await book.save();
+    } else {
+      throw createError.Conflict(`Something went wrong!!!`);
+    }
+    const suser = await UserDetails.findById(req.params.id).populate({
+      path: "cartItem",
+      populate: "book",
+    });
+    res.send(suser);
   } catch (error) {
-    error.status = "401";
+    next(error);
+  }
+});
+
+router.patch("/cartItem-qty/:id", async (req, res) => {
+  const { id, quantity } = req.body;
+  const user = await UserDetails.findById(req.params.id);
+  const cart = user.cartItem.find((item) => item._id.toString() === id);
+  cart.quantity = quantity || 1;
+  await user.save();
+  const suser = await UserDetails.findById(req.params.id).populate({
+    path: "cartItem",
+    populate: "book",
+  });
+  res.send(suser);
+});
+
+router.patch("/remove-cartItem/:id", async (req, res, next) => {
+  const user = await UserDetails.findById(req.params.id);
+  const { _id } = req.body;
+  user.cartItem.pull({
+    _id,
+  });
+  await user.save();
+  const suser = await UserDetails.findById(req.params.id).populate({
+    path: "cartItem",
+    populate: "book",
+  });
+  res.send(suser);
+});
+router.get("/users", async function (req, res) {
+  const user = await UserDetails.find().populate({
+    path: "cartItem",
+    populate: "book",
+  });
+  res.json(user);
+});
+
+router.get("/users/:id", async function (req, res) {
+  const user = await UserDetails.findById(req.params.id).populate({
+    path: "cartItem",
+    populate: "book",
+  });
+  res.json(user);
+});
+
+router.post("/user/signup", async function (req, res, next) {
+  try {
+    const { name, email, password } = req.body;
+    const userExist = await UserDetails.findOne({ email });
+    if (userExist)
+      throw createError.Conflict(`${email} is already registered.`);
+    const user = new UserDetails({
+      name,
+      email,
+      password,
+      cartItem: [],
+    });
+
+    const savedUser = await user.save();
+    res.json(savedUser);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.post("/user/login", async function (req, res, next) {
+  try {
+    const { email, password } = req.body;
+    const user = await UserDetails.findOne({ email });
+    if (!user) throw createError.Conflict(`User not found`);
+
+    const isValidPassword = await user.isValidPassword(password);
+    if (!isValidPassword)
+      throw createError.Unauthorized("Invalid Username/Password");
+
+    res.json({
+      _id: user.id,
+      name: user.name,
+      cartItem: user.cartItem,
+      email: user.email,
+    });
+  } catch (error) {
     next(error);
   }
 });
